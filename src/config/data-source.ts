@@ -7,5 +7,5 @@ export const AppDataSource = new DataSource({
     database: "events.db",
     entities: [Events],
     migrations: ["src/migrations/*.ts"],
-    synchronize: false,
+    synchronize: true,
 });
