@@ -1,106 +1,14 @@
 import { Router } from "express";
-import { Events } from "../entities/Events";
+import { EventsController } from "../controllers/events.controller";
 
 const router = Router();
 
-router.get("/", async (req, res) => {
-  try {
-    const events = await Events.find();   
-    res.json(events);
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({ message: "Server error" });
-  }
-});
+router.get("/", EventsController.getAllEvents);
 
+router.post("/", EventsController.createEvent);
 
-router.get("/:id", async (req, res) => {
-  try {
-    const id = req.params.id;
-    const event = await Events.findOne({ where: { Index: Number(id) } });
+router.put("/:id", EventsController.updateEvent);
 
-    if (!event) {
-      return res.status(404).json({ message: "Event not found" });
-    }
-
-    return res.json(event);
-
-  } catch (err) {
-    console.error("Error:", err);
-    return res.status(500).json({ error: "Something went wrong" });
-  }
-});
-
-
-router.post("/", async (req, res) => {
-  try {
-    const body = req.body;
-    const dateStr = body.Date;
-
-    const eventTime = new Date(dateStr);
-    const now = new Date();
-
-    if (eventTime > now ){
-      return res.status(400).json ({ message: "תאריך או שעה אינם חוקיים"});
-    }
-
-    if (body.eventDescription && body.eventDescription.length > 800) {
-      return res.status(400).json({ message: "תיאור האירוע חייב להיות עד 800 תווים" });
-    }
-
-    if (Array.isArray(body)) {
-      const events = Events.create(body);
-      await Events.save(events);
-      return res.json(events);
-    }
-
-    const event = Events.create(body);
-    await event.save();
-    return res.json(event);
-
-  } catch (err) {
-    console.error("Error:", err);
-    return res.status(500).json({ error: "Something went wrong" });
-  }
-});
-
-
-router.put("/:id", async (req, res) => {
-  try {
-    const id = req.params.id;
-    const body = req.body;
-
-    const event = await Events.findOneBy({ Index: Number(id) });
-
-    if (!event) {
-      return res.status(404).json({ message: "Event not found" });
-    }
-
-    Object.assign(event, body);
-    await event.save();
-
-    res.json({ message: "Event updated", event });
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({ message: "Server error" });
-  }
-});
-
-
-router.delete("/:id", async (req, res) => {
-  try {
-    const id = Number(req.params.id);
-    const result = await Events.delete({ Index: id });
-
-    if (result.affected === 0 ) {
-      return res.status(404).json({message: "Event not found" });
-    }
-
-    res.json({message: "Event deleted"});
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({message: "Server error"});
-  }
-});
+router.delete("/:id", EventsController.deleteEvent);
 
 export default router;
