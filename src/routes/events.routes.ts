@@ -14,7 +14,6 @@ router.get("/", async (req, res) => {
 });
 
 
-
 router.get("/:id", async (req, res) => {
   try {
     const id = req.params.id;
@@ -31,7 +30,6 @@ router.get("/:id", async (req, res) => {
     return res.status(500).json({ error: "Something went wrong" });
   }
 });
-
 
 
 router.post("/", async (req, res) => {
@@ -51,6 +49,45 @@ router.post("/", async (req, res) => {
   } catch (err) {
     console.error("Error:", err);
     return res.status(500).json({ error: "Something went wrong" });
+  }
+});
+
+
+router.put("/:id", async (req, res) => {
+  try {
+    const id = req.params.id;
+    const body = req.body;
+
+    const event = await Events.findOneBy({ Index: Number(id) });
+
+    if (!event) {
+      return res.status(404).json({ message: "Event not found" });
+    }
+
+    Object.assign(event, body);
+    await event.save();
+
+    res.json({ message: "Event updated", event });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: "Server error" });
+  }
+});
+
+
+router.delete("/:id", async (req, res) => {
+  try {
+    const id = Number(req.params.id);
+    const result = await Events.delete({ Index: id });
+
+    if (result.affected === 0 ) {
+      return res.status(404).json({message: "Event not found" });
+    }
+
+    res.json({message: "Event deleted"});
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({message: "Server error"});
   }
 });
 
