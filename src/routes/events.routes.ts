@@ -35,6 +35,18 @@ router.get("/:id", async (req, res) => {
 router.post("/", async (req, res) => {
   try {
     const body = req.body;
+    const dateStr = body.Date;
+
+    const eventTime = new Date(dateStr);
+    const now = new Date();
+
+    if (eventTime > now ){
+      return res.status(400).json ({ message: "תאריך או שעה אינם חוקיים"});
+    }
+
+    if (body.eventDescription && body.eventDescription.length > 800) {
+      return res.status(400).json({ message: "תיאור האירוע חייב להיות עד 800 תווים" });
+    }
 
     if (Array.isArray(body)) {
       const events = Events.create(body);
