@@ -2,10 +2,15 @@ import "reflect-metadata";
 import express from "express";
 import eventsRouter from "./routes/events.routes";
 import { AppDataSource } from "./config/data-source";
-
+import cors from "cors";
 
 
 const app = express();
+
+app.use(cors({
+  origin: "http://localhost:5173",
+}));
+
 app.use(express.json());
 app.use("/events", eventsRouter);
 
