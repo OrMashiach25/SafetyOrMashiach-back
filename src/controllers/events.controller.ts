@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import { EventsService } from "../services/events.service";
-import { json } from "stream/consumers";
+
 
 export class EventsController {
 
@@ -97,5 +97,18 @@ export class EventsController {
       console.error(err);
       res.status(500).json({ message: "Server error" });
     }
+  }
+
+  static async uploadImage(req: Request, res: Response){
+    if(!req.file) {
+      return res.status(400).json({message:"no image uploaded"});
+    }
+
+    return res.json({
+      message: "image uploaded successfully",
+      fileName: req.file.filename,
+      filePath: `/uploads/${req.file.filename}`,
+    });
+
   }
 }

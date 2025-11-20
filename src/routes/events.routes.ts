@@ -16,17 +16,6 @@ router.put("/:id", EventsController.updateEvent);
 
 router.delete("/:id", EventsController.deleteEvent);
 
-router.post("/upload-image", upload.single("image"), (req, res) => {
-  if (!req.file) {
-    return res.status(400).json({ message: "no image uploaded" });
-  }
-
-  return res.json({
-    message: "image uploaded successfully",
-    fileName: req.file.filename,
-    filePath: `/uploads/${req.file.filename}`,
-  });
-});
-
+router.post("/upload-image", upload.single("image"), EventsController.uploadImage);
 
 export default router;
