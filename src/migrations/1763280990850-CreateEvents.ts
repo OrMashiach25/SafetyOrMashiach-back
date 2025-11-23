@@ -8,7 +8,7 @@ export class CreateEventsTable1733289990000 implements MigrationInterface {
             "Date" varchar NOT NULL, "location" varchar NOT NULL, "typeActivity" varchar NOT NULL, 
             "categoryoption" varchar NOT NULL, "eventSeverity" varchar NOT NULL, "typeUnitActivity" varchar NOT NULL, 
             "weather" varchar NOT NULL, "eventDescription" varchar NOT NULL, "subSubUnitInput" varchar NOT NULL, 
-            "results" varchar NOT NULL, "injuryLevel" varchar NOT NULL)`);
+            "results" varchar NOT NULL, "injuryLevel" varchar NOT NULL,"civilAreaCoord" varchar)`);
     }
 
     public async down(queryRunner: QueryRunner): Promise<void> {

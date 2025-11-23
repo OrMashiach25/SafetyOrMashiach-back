@@ -12,6 +12,10 @@ export class Events extends BaseEntity{
     @Column()
     location!: string;
 
+    @Column({ nullable: true })
+    civilAreaCoord?: string;
+
+
 
     @Column()
     typeActivity!: string ;
