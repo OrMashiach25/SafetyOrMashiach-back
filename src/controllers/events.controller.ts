@@ -2,9 +2,8 @@ import { Request, Response } from "express";
 import { EventsService } from "../services/events.service";
 
 
-export class EventsController {
 
-  static async getAllEvents(req: Request, res: Response) {
+  export async function  getAllEvents(req: Request, res: Response) {
     try {
       const events = await EventsService.getAllEvents();
       res.json(events);
@@ -14,7 +13,7 @@ export class EventsController {
     }
   }
 
-  static async createEvent(req: Request, res: Response) {
+  export async function createEvent(req: Request, res: Response) {
     try {
       const body = req.body; 
       const eventsToCheck = Array.isArray(body) ? body : [body];
@@ -46,7 +45,7 @@ export class EventsController {
     }
   }
 
-  static async updateEvent(req: Request, res: Response) {
+  export async function updateEvent(req: Request, res: Response) {
     try {
       const id = Number(req.params.id);
       const body = req.body;
@@ -78,7 +77,7 @@ export class EventsController {
     }
   }
 
-  static async deleteEvent(req: Request, res: Response) {
+  export async function deleteEvent(req: Request, res: Response) {
     try {
       const id = Number(req.params.id);
 
@@ -99,7 +98,7 @@ export class EventsController {
     }
   }
 
-  static async uploadImage(req: Request, res: Response){
+  export async function uploadImage(req: Request, res: Response){
     if(!req.file) {
       return res.status(400).json({message:"no image uploaded"});
     }
@@ -111,4 +110,3 @@ export class EventsController {
     });
 
   }
-}

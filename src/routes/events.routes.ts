@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { EventsController } from "../controllers/events.controller";
+import {  createEvent, deleteEvent, getAllEvents, updateEvent, uploadImage } from "../controllers/events.controller";
 import multer from "multer";
 
 const upload = multer({
@@ -8,14 +8,14 @@ const upload = multer({
 
 const router = Router();
 
-router.get("/", EventsController.getAllEvents);
+router.get("/", getAllEvents);
 
-router.post("/", EventsController.createEvent);
+router.post("/", createEvent);
 
-router.put("/:id", EventsController.updateEvent);
+router.put("/:id", updateEvent);
 
-router.delete("/:id", EventsController.deleteEvent);
+router.delete("/:id", deleteEvent);
 
-router.post("/upload-image", upload.single("image"), EventsController.uploadImage);
+router.post("/upload-image", upload.single("image"), uploadImage);
 
 export default router;
